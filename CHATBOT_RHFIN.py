@@ -4,7 +4,8 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import string
 import streamlit as st
-
+import nltk
+nltk.download('stopwords')
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 
