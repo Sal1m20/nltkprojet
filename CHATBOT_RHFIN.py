@@ -78,8 +78,8 @@ def main():
 
         # Display the entire conversation without a scrollbar
         for q, a in dialogues:
-            st.text(f"You: {q}")
-            st.text(f"Chatbot: {a}")
+            st.write(f"You: {q}")
+            st.write(f"Chatbot: {a}")
 
 if __name__ == "__main__":
     main()
