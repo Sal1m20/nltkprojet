@@ -4,8 +4,6 @@ from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 import string
 import streamlit as st
-import nltk
-import nltk
 nltk.download('wordnet')
 nltk.download('stopwords')
 nltk.download('punkt')
@@ -58,23 +56,30 @@ def main():
     # Get the user's question
     question = st.text_input("You:")
 
-    # Create a button to submit the question
-    if st.button("Submit"):
-        if question:
-            response = chatbot(question)
+    # Initialize session state variables if not already initialized
+    if 'question' not in st.session_state:
+        st.session_state.question = ""
+    if 'dialogues' not in st.session_state:
+        st.session_state.dialogues = []
 
-            # Convert the list to a string before displaying
-            response_str = ' '.join(response)
+    # Detect 'Enter' key press event
+    if question and st.session_state.question != question:
+        st.session_state.question = question  # Update session state
+        response = chatbot(question)
 
-            # Store the question and response in the list
-            dialogues.append((question, response_str))
+        # Convert the list to a string before displaying
+        response_str = ' '.join(response)
 
-            # Update session state
-            st.session_state.dialogues = dialogues
+        # Store the question and response in the list
+        dialogues.append((question, response_str))
 
-            # Display the entire conversation without scroll bar
-            conversation = "\n\n".join([f"You: {q}\nChatbot: {a}" for q, a in dialogues])
-            st.markdown(conversation)
+        # Update session state
+        st.session_state.dialogues = dialogues
+
+        # Display the entire conversation without a scrollbar
+        for q, a in dialogues:
+            st.text(f"You: {q}")
+            st.text(f"Chatbot: {a}")
 
 if __name__ == "__main__":
     main()
